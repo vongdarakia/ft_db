@@ -1,0 +1,10 @@
+users
+3
+2
+4
+id,Int,0,1,1,0
+first,String,20,0,0,0
+last,String,20,0,0,0
+age,Int,0,0,0,0
+1,Akia,Vongdara,24
+2,Mikhail,Filipchuk,28

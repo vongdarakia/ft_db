@@ -23,7 +23,7 @@
 **	@return			Directory path to the database (ie. Database/Sibyl/)
 */
 
-char	*get_db_path(char *db)
+char		*get_db_path(char *db)
 {
 	char	*db_path;
 
@@ -43,7 +43,7 @@ char	*get_db_path(char *db)
 **	@param db:		Database name
 */
 
-void	create_db(char *db)
+void		create_db(char *db)
 {
 	struct stat	st;
 	char		*new_db;
@@ -58,4 +58,44 @@ void	create_db(char *db)
 		mkdir(new_db, 0755);
 	}
 	free(new_db);
+}
+
+/*
+**	load_db
+**
+**	Loads the specified database, and returns a database obj.
+**
+**	@param db:		Database name
+**	@return			Database obj with all items.
+*/
+
+t_database	*load_db(char *db)
+{
+	struct stat	st;
+	t_database	*db_obj;
+	char		*db_path;
+
+	db_path = get_db_path(db);
+	if (stat(db_path, &st) == -1)
+	{
+		printf("Error: Couldn't load %s. Database not found.\n", db);
+		return (NULL);
+	}
+	db_obj = (t_database*)calloc(1, sizeof(t_database));
+	db_obj->name = db;
+	db_obj->num_tables = 4;
+	db_obj->tables = load_tables(db_path, db_obj->num_tables);
+	if (db_obj->tables == NULL)
+	{
+		printf("Error: Couldn't load %s. Invalid tables.\n", db);
+		return (NULL);
+	}
+	free(db_path);
+	return (db_obj);
+}
+
+void		free_db(t_database *db)
+{
+	free_tables(db->tables, db->num_tables);
+	free(db);
 }

@@ -1,0 +1,11 @@
+users					// table name
+3 						// id counter
+2 						// num rows (data)
+4 						// num cols
+field, type, size, primary, unique, nullable
+id,Int,0,1,1,0
+first,String,20,0,0,0
+last,String,20,0,0,0
+age,Int,0,0,0,0
+1,Akia,Vongdara,24
+2,Mikhail,Filipchuk,28
