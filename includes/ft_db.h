@@ -54,6 +54,12 @@ typedef struct	s_database
 	int				num_tables;
 }				t_database;
 
+typedef struct	s_env
+{
+	t_database		*db_in_use;	
+	t_table			*tbl_in_use;
+}				t_env;
+
 char			*get_db_path(char *db);
 char			*get_table_path(char *db, char *table);
 int				create_db(char *db);
