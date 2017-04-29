@@ -105,7 +105,7 @@ t_table		load_table(char *table_path, char *table_name)
 	int		line;
 
 	line = -1;
-	file = fopen(table_path, "rw");
+	file = fopen(table_path, "r");
 	if (file == NULL)
 	{
 		tab_obj.is_bad = 1;
