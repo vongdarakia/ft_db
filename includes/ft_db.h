@@ -23,6 +23,7 @@
 # include <stdlib.h>
 # include <dirent.h>
 # include <errno.h>
+# include "env.h"
 # include "libft.h"
 
 typedef struct	s_field
@@ -62,4 +63,6 @@ t_database		*load_db(char *db);
 t_table			*load_tables(char *db_path, int num_tables);
 void			free_tables(t_table *tables, int num_tables);
 void			free_db(t_database *db);
+void			write_table(char *db, t_table *table);
+
 #endif
