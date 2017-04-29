@@ -43,7 +43,7 @@ char		*get_db_path(char *db)
 **	@param db:		Database name
 */
 
-void		create_db(char *db)
+int			create_db(char *db)
 {
 	struct stat	st;
 	char		*new_db;
@@ -58,6 +58,7 @@ void		create_db(char *db)
 		mkdir(new_db, 0755);
 	}
 	free(new_db);
+	return (1);
 }
 
 /*

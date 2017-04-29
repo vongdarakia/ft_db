@@ -21,31 +21,34 @@ int		main(int ac, char const *av[])
 	int k;
 
 	db = load_db("db");
-	printf("%s\n", db->name);
-	i = 0;
-	while (i < 1)
-	{
-		printf("table %s\n", db->tables[i].name);
-		j = -1;
-		while (++j < db->tables[i].num_cols)
-			printf("field %s\n", db->tables[i].fields[j].name);
-		j = -1;
-		while (++j < db->tables[i].num_rows)
-		{
+	printf("Do it... \n");
+	scanf ("%d", &k);
+	write_table(db->name, db->tables);
+	// printf("%s\n", db->name);
+	// i = 0;
+	// while (i < 1)
+	// {
+	// 	printf("table %s\n", db->tables[i].name);
+	// 	j = -1;
+	// 	while (++j < db->tables[i].num_cols)
+	// 		printf("field %s\n", db->tables[i].fields[j].name);
+	// 	j = -1;
+	// 	while (++j < db->tables[i].num_rows)
+	// 	{
 			
-			k = -1;
-			while (++k < db->tables[i].num_cols)
-			{
-				field = db->tables[i].fields[k];
-				if (field.data_type == FT_STRING)
-					printf("row %s: %s\n", field.name, field.str_rows[j]);
-				if (field.data_type == FT_INT)
-					printf("row %s: %d\n", field.name, field.int_rows[j]);
-			}
-			// printf("field %s\n", field.name);
-		}
-		i++;
-	}
+	// 		k = -1;
+	// 		while (++k < db->tables[i].num_cols)
+	// 		{
+	// 			field = db->tables[i].fields[k];
+	// 			if (field.data_type == FT_STRING)
+	// 				printf("row %s: %s\n", field.name, field.str_rows[j]);
+	// 			if (field.data_type == FT_INT)
+	// 				printf("row %s: %d\n", field.name, field.int_rows[j]);
+	// 		}
+	// 		// printf("field %s\n", field.name);
+	// 	}
+	// 	i++;
+	// }
 	// free_db(db);
 	// create_db("db");
 	// create_table("db", "table");
