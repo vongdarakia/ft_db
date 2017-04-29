@@ -61,11 +61,13 @@ typedef struct	s_env
 }				t_env;
 
 char			*get_db_path(char *db);
-void			create_db(char *db);
 char			*get_table_path(char *db, char *table);
-void			create_table(char *db, t_table *table);
+int				create_db(char *db);
+int				create_table(char *db, t_table *table);
 t_database		*load_db(char *db);
 t_table			*load_tables(char *db_path, int num_tables);
 void			free_tables(t_table *tables, int num_tables);
 void			free_db(t_database *db);
+void			write_table(char *db, t_table *table);
+
 #endif

@@ -18,7 +18,9 @@ CC			=	gcc
 LFLAGS		=	-I lib/libft/includes -L lib/libft/ -lft
 SRCS		= 	main.c \
 				database.c \
-				table.c
+				table.c \
+				write_data.c \
+				read_table.c
 
 ODIR		=	build
 OBJS		=	$(addprefix build/, $(SRCS:.c=.o)) 
