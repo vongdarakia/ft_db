@@ -225,6 +225,27 @@ t_table		*load_tables(char *db_path, int num_tables)
 	return (tables);
 }
 
+void		display_table(t_table *table)
+{
+	int r;
+	int c;
+
+	r = -1;
+	while (++r < table->num_rows)
+	{
+		c = -1;
+		while (++c < table->num_cols)
+		{
+			field = table->fields[c];
+			if (field.data_type == FT_STRING)
+				printf("row %s: %s\n", field.name, field.str_rows[r]);
+			if (field.data_type == FT_INT)
+				printf("row %s: %d\n", field.name, field.int_rows[r]);
+		}
+		// printf("field %s\n", field.name);
+	}
+}
+
 void		free_fields(t_field *fields, int num_fields, int num_rows)
 {
 	int i;
