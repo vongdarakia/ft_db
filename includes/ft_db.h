@@ -23,7 +23,6 @@
 # include <stdlib.h>
 # include <dirent.h>
 # include <errno.h>
-# include "env.h"
 # include "libft.h"
 
 typedef struct	s_field

@@ -99,3 +99,22 @@ void	write_table(char *db, t_table *table)
 	free(db_path);
 	free(table_path);
 }
+
+/*
+**	write_to_table
+**
+**	Appends new data to the data file. Right now we can't do this.
+**	We have to split the table meta data separate from the row data,
+**	so that we don't have to rewrite the entire file every time since
+**	the number of rows are always changing.
+**
+**	This should add the last table row to the file.
+**
+**	@param db:		Database name of the table.
+**	@param table:	Table we're writing out.
+*/
+
+void	write_to_table(char *db, t_table *table)
+{
+
+}
