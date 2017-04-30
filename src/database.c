@@ -86,17 +86,11 @@ t_database	*load_db(char *db)
 	db_obj->name = db;
 	db_obj->num_tables = 4;
 	db_obj->tables = load_tables(db_path, db_obj->num_tables);
-	if (db_obj->tables == NULL)
-	{
-		printf("Error: Couldn't load %s. Invalid tables.\n", db);
-		return (NULL);
-	}
+	// if (db_obj->tables == NULL)
+	// {
+	// 	printf("Error: Couldn't load %s. Invalid tables.\n", db);
+	// 	return (NULL);
+	// }
 	free(db_path);
 	return (db_obj);
-}
-
-void		free_db(t_database *db)
-{
-	free_tables(db->tables, db->num_tables);
-	free(db);
 }

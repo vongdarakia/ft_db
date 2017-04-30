@@ -12,47 +12,35 @@
 
 #include "ft_db.h"
 
-t_field		parse_field(char **field_data, int num_rows)
+t_field		parse_field(char **data, int num_rows)
 {
 	t_field	field;
-	int 	idx;
+	int		idx;
 
 	idx = -1;
 	while (++idx < NUM_FIELD_DATA)
-	{
 		if (idx == 0)
-			field.name = strdup(field_data[idx]);
-		else if (idx == 1 && strcmp(field_data[idx], FT_INT) == 0)
-		{
+			field.name = strdup(data[idx]);
+		else if (idx == 1 && strcmp(data[idx], FT_INT) == 0)
 			field.int_rows = (int*)calloc(num_rows, sizeof(int));
-			field.data_type = FT_INT;
-		}
-		else if (idx == 1 && strcmp(field_data[idx], FT_STRING) == 0)
-		{
+		else if (idx == 1 && strcmp(data[idx], FT_STRING) == 0)
 			field.str_rows = (char**)calloc(num_rows, sizeof(char*));
-			field.data_type = FT_STRING;
-		}
 		else if (idx == 2)
-			field.size = atoi(field_data[idx]);
+			field.size = atoi(data[idx]);
 		else if (idx == 3)
-			field.is_primary_key = atoi(field_data[idx]);
+			field.is_primary_key = atoi(data[idx]);
 		else if (idx == 4)
-			field.is_unique = atoi(field_data[idx]);
+			field.is_unique = atoi(data[idx]);
 		else if (idx == 5)
-			field.is_nullable = atoi(field_data[idx]);
-		free(field_data[idx]);
-	}
-	// if (strcmp(field.data_type, "Int") == 0)
-	// 	field.int_rows = (int*)calloc(num_rows, sizeof(int));
-	// else if (strcmp(field.data_type, "String") == 0)
-	// 	field.str_rows = (char**)calloc(num_rows, sizeof(char*));
-	free(field_data);
-	return field;
+			field.is_nullable = atoi(data[idx]);
+	field.data_type = strcmp(data[1], FT_STRING) == 0 ? FT_STRING : FT_INT;
+	free_map(data);
+	return (field);
 }
 
 void		parse_row(char **row_data, t_table *tab_obj, int row_num)
 {
-	int 	idx;
+	int		idx;
 	t_field	field;
 
 	idx = -1;
@@ -63,9 +51,8 @@ void		parse_row(char **row_data, t_table *tab_obj, int row_num)
 			field.int_rows[row_num] = atoi(row_data[idx]);
 		else if (strcmp(field.data_type, "String") == 0)
 			field.str_rows[row_num] = strdup(row_data[idx]);
-		free(row_data[idx]);
 	}
-	free(row_data);
+	free_map(row_data);
 }
 
 /*
@@ -99,31 +86,32 @@ void		parse_table_meta_data(int nth, t_table *tab_obj, char *buffer)
 
 t_table		load_table(char *table_path, char *table_name)
 {
-	FILE    *file;
-	t_table	tab_obj;
-	char	buffer[BUFF_SIZE];
+	FILE	*file;
+	t_table	t;
+	char	bf[BUFF_SIZE];
 	int		line;
+	char	**split;
 
 	line = -1;
 	file = fopen(table_path, "r");
 	if (file == NULL)
 	{
-		tab_obj.is_bad = 1;
-		return tab_obj;
+		t.is_bad = 1;
+		fclose(file);
+		return (t);
 	}
-	while (fgets(buffer, BUFF_SIZE, file) != NULL)
+	while (fgets(bf, BUFF_SIZE, file) != NULL)
 	{
-		// printf("%d\n", line);
-		buffer[strcspn(buffer, "\n")] = 0;
+		bf[strcspn(bf, "\n")] = 0;
 		if (++line < 4)
-			parse_table_meta_data(line, &tab_obj, buffer);
-		else if (line < 4 + tab_obj.num_cols)
-			tab_obj.fields[line - 4] = parse_field(ft_strsplit(buffer, ','), tab_obj.num_rows);
+			parse_table_meta_data(line, &t, bf);
+		else if (line < 4 + t.num_cols)
+			t.fields[line - 4] = parse_field(ft_strsplit(bf, ','), t.num_rows);
 		else
-			parse_row(ft_strsplit(buffer, ','), &tab_obj, line - 4 - tab_obj.num_cols);
+			parse_row(ft_strsplit(bf, ','), &t, line - 4 - t.num_cols);
 	}
 	fclose(file);
-	return tab_obj;
+	return (t);
 }
 
 /*
@@ -144,20 +132,20 @@ t_table		*load_tables(char *db_path, int num_tables)
 	int				idx;
 
 	idx = 0;
-	if (!(dir_fd = opendir(db_path))) 
+	if (!(dir_fd = opendir(db_path)))
 		return (NULL);
 	tables = (t_table*)calloc(num_tables, sizeof(t_table));
-	while ((dir = readdir(dir_fd))) 
+	while ((dir = readdir(dir_fd)))
 	{
 		if (strcspn(dir->d_name, "t_") != 0)
 			continue;
-		// printf("%s\n", dir->d_name);
 		table_path = (char*)calloc(strlen(db_path) + strlen(dir->d_name) + 1,
 			sizeof(char));
 		strcat(table_path, db_path);
-        strcat(table_path, dir->d_name);
+		strcat(table_path, dir->d_name);
 		tables[idx++] = load_table(table_path, dir->d_name);
 		free(table_path);
 	}
+	closedir(dir_fd);
 	return (tables);
 }

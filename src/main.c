@@ -12,18 +12,56 @@
 
 #include "ft_db.h"
 
+typedef struct s_point
+{
+	int x;
+	int y;
+}				t_point;
+
+t_point getPoint(int x, int y)
+{
+	t_point p;
+	p.x = x;
+	p.y = y;
+	return p;
+}
+
+// void	change(t_point pts)
+// {
+// 	pts->x = 0;
+// 	pts->y = 0;
+// }
+
+// void print_mid_str(char *s, int width)
+// {
+// 	int left_spaces = width + strlen(s) / 2;
+// 	int right_spaces = width - strlen(s) / 2;
+//     printf("%*s%*s", left_spaces, s, right_spaces, "");
+// }
+
 int		main(int ac, char const *av[])
 {
 	t_database *db;
-	t_field field;
-	int i;
-	int j;
-	int k;
+	// t_field field;
+	// int i = 0;
+	// int j = 0;
+	// int k = 0;
+	// t_point *pts;
 
+	// printf("%lu\n", sizeof(db));
+
+	// db = (t_database*)calloc(1, sizeof(t_database));
+	// free(db);
 	db = load_db("db");
-	printf("Do it... \n");
-	scanf ("%d", &k);
-	write_table(db->name, db->tables);
+	// printf("ROWS %d\n", db->tables->num_rows);
+	display_table(db->tables);
+	free_db(db);
+	// print_mid_str("uno", 10);
+	// f("something");
+	// free_db(db);
+	// printf("Do it... \n");
+	// scanf ("%d", &k);
+	// write_table(db->name, db->tables);
 	// printf("%s\n", db->name);
 	// i = 0;
 	// while (i < 1)
@@ -58,10 +96,14 @@ int		main(int ac, char const *av[])
  //    FILE    *common_file;
  //    FILE    *entry_file;
  //    char    buffer[256];
-
+	// pts = (t_point*)calloc(1, sizeof(t_point));
     // t_point p = getPoint(1, 3);
-
+    // // t_point *p2 = malloc(sizeof(t_point));
     // printf("%d %d\n", p.x, p.y);
+    // printf("asdlfkjas;dlfj\n");
+ //    p.x += 10;
+ //    p.y += 10;
+ //    printf("%d %d\n", p.x, p.y);
     /* Openiing common file for writing */
     // common_file = fopen(, "w");
     // if (common_file == NULL)
@@ -115,7 +157,5 @@ int		main(int ac, char const *av[])
 
     /* Don't forget to close common file before leaving */
     // fclose(common_file);
-
-    return 0;
 	return (0);
 }

@@ -10,17 +10,19 @@
 #                                                                              #
 # **************************************************************************** #
 
-LIB			=	lib/libft/libft.a
 NAME		=	a.out
 
 IDIR		=	includes
 CC			=	gcc
-LFLAGS		=	-I lib/libft/includes -L lib/libft/ -lft
+# CFLAGS		=	-Wall -Wextra
 SRCS		= 	main.c \
 				database.c \
 				table.c \
 				write_data.c \
-				read_table.c
+				read_table.c \
+				ft_strsplit.c \
+				free.c \
+				print_table.c
 
 ODIR		=	build
 OBJS		=	$(addprefix build/, $(SRCS:.c=.o)) 
@@ -32,11 +34,11 @@ all: $(NAME)
 build:
 	@mkdir build/
 
-$(NAME): $(OBJS) $(LIB)
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) -o $(NAME)
 
 build/%.o: src/%.c | build
-	$(CC) -I includes/ -I lib/libft/includes $(CFLAGS) -c $< -o $@
+	$(CC) -I includes/ $(CFLAGS) -c $< -o $@
 
 $(LIB):
 	make re -C lib/libft/
@@ -47,6 +49,6 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C lib/libft/
+	# make fclean -C lib/libft/
 
 re: fclean all

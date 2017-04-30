@@ -66,56 +66,40 @@ int			create_table(char *db, t_table *table)
 	return (1);
 }
 
+int			num_digits(int num)
+{
+	int	digits;
+
+	digits = 1;
+	while (num / 10)
+	{
+		digits += 1;
+		num /= 10;
+	}
+	return (digits);
+}
+
 void		display_table(t_table *table)
 {
-	int r;
-	int c;
-	t_field field;
+	int		r;
+	int		c;
+	t_field	*field;
+	int		num_char;
 
-	r = -1;
-	while (++r < table->num_rows)
+	c = -1;
+	num_char = 0;
+	num_char += printf("| ");
+	while (++c < table->num_cols)
 	{
-		c = -1;
-		while (++c < table->num_cols)
-		{
-			field = table->fields[c];
-			if (field.data_type == FT_STRING)
-				printf("row %s: %s\n", field.name, field.str_rows[r]);
-			else if (field.data_type == FT_INT)
-				printf("row %s: %d\n", field.name, field.int_rows[r]);
-		}
-		// printf("field %s\n", field.name);
+		field = &table->fields[c];
+		if (strcmp(field->data_type, FT_STRING) == 0)
+			num_char += print_mid_str(field->name, 12);
+		else if (strcmp(field->data_type, FT_INT) == 0)
+			num_char += print_mid_str(field->name, 6);
+		num_char += printf(" |");
 	}
-}
-
-void		free_fields(t_field *fields, int num_fields, int num_rows)
-{
-	int i;
-	int j;
-
-	i = -1;
-	while (++i < num_fields)
-	{
-		free(fields[i].name);
-		if (fields[i].data_type == FT_STRING)
-		{
-			j = -1;
-			while(++j < num_rows)
-				free(fields[i].str_rows[j]);
-			free(fields[i].str_rows);
-		}
-		if (fields[i].data_type == FT_INT)
-			free(fields[i].int_rows);
-	}
-}
-
-void		free_tables(t_table *tables, int num_tables)
-{
-	int i;
-
-	i = -1;
-	while (++i < num_tables)
-	{
-		free_fields(tables[i].fields, tables[i].num_cols, tables[i].num_rows);
-	}
+	printf("\n");
+	print_x("-", num_char);
+	printf("\n");
+	print_rows(table);
 }

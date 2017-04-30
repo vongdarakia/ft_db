@@ -16,6 +16,7 @@
 # define DB_DIR "Databases"
 # define FT_INT "Int"
 # define FT_STRING "String"
+# define BUFF_SIZE 256
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <unistd.h>
@@ -23,7 +24,7 @@
 # include <stdlib.h>
 # include <dirent.h>
 # include <errno.h>
-# include "libft.h"
+# include <string.h>
 
 typedef struct	s_field
 {
@@ -62,12 +63,26 @@ typedef struct	s_env
 
 char			*get_db_path(char *db);
 char			*get_table_path(char *db, char *table);
+
 int				create_db(char *db);
 int				create_table(char *db, t_table *table);
+
 t_database		*load_db(char *db);
 t_table			*load_tables(char *db_path, int num_tables);
+
 void			free_tables(t_table *tables, int num_tables);
 void			free_db(t_database *db);
+void			free_map(char **map);
+void			free_mapn(char **map, int num);
+
+int				print_mid_str(char *s, int width);
+int				print_mid_int(int d, int width);
+int				print_x(char *c, int x);
+void			print_rows(t_table *table);
+
+int				num_digits(int num);
 void			write_table(char *db, t_table *table);
+void			display_table(t_table *table);
+char			**ft_strsplit(char const *s, char c);
 
 #endif
