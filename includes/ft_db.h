@@ -69,5 +69,6 @@ t_table			*load_tables(char *db_path, int num_tables);
 void			free_tables(t_table *tables, int num_tables);
 void			free_db(t_database *db);
 void			write_table(char *db, t_table *table);
+void			call_error(int err_code);
 
 #endif
