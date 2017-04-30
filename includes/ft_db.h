@@ -84,5 +84,6 @@ int				num_digits(int num);
 void			write_table(char *db, t_table *table);
 void			display_table(t_table *table);
 char			**ft_strsplit(char const *s, char c);
+void			call_error(int err_code);
 
 #endif
