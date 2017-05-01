@@ -37,23 +37,25 @@ static t_table *find_table(char *tbl_name, t_env *env)
 int	display_help(void)
 {
 	printf("\
-Command line supports following commands:\n\
+Command line supports the following commands:\n\
 dsp\n\
-- Displays stuff\n\n\
+- Displays current database and table that are in use\n\n\
 dsp_tbl [table_name]\n\
-- By default displays table that is currently selected\n\
-If table_name is specified displays corresponding table\n\n\
+- By default, it displays selected table's contents.\n\
+If table_name is specified, it will display the specified table\n\n\
 use_db database_name\n\
 - Selects a db, the db should exist or should be created beforehand\n\n\
 use_tbl table_name\n\
 - Selects a table from the db if the db is selected and the table exists\n\n\
 add value1, value2, ...\n\
 - Adds a row into the table, values for every field should be entered.\n\
-Primary_key (\'id\') field is autoincremented and sould not be specified\n\n\
+Primary_key (\'id\') field is auto incremented and should not be specified\n\n\
+For ex. For a table with the fields: id, first, last, age\n\
+\t>> add Xavier Niel 49\n\n\
 del row_number\n\
 - Deletes a row from the selected table, row index starts from 0\n\n\
 upd row_number field1=value, field2=value, ...\n\
-- Makes changes to the row_number entry changing values in specified fields\n\n\
+- Makes changes to the specified fields of the entry for the specified row_number\n\n\
 exit\n\
 - Exit the program\n");
 	return (0);
