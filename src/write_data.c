@@ -59,9 +59,9 @@ void	write_rows(FILE *file, t_table *table)
 		while (++c < table->num_cols)
 		{
 			f = table->fields[c];
-			if (f.data_type == FT_STRING)
+			if (strcmp(f.data_type, FT_STRING) == 0)
 				fprintf(file, "%s", f.str_rows[r]);
-			else if (f.data_type == FT_INT)
+			else if (strcmp(f.data_type, FT_INT) == 0)
 				fprintf(file, "%d", f.int_rows[r]);
 			if (c < table->num_cols - 1)
 				fprintf(file, ",");

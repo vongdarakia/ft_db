@@ -42,7 +42,7 @@ static int	check_types(char **args, t_table *table)
 			return (1);
 		i++;
 	}
-	table->num_rows++;
+	
 	return (0);
 }
 
@@ -60,6 +60,7 @@ int		add(char **args, t_table *table)
 		return (1);
 	// printf("Types are fine\n");
 	i = -1;
+	table->num_rows++;
 	while (*args && ++i < table->num_cols)
 	{
 		if (strcmp(table->fields[i].data_type, FT_INT) == 0)
@@ -98,7 +99,6 @@ int		del(char **args, t_table *table)
 		|| ind >= table->num_rows)
 		return (1);
 	i = -1;
-	// printf("Deleting row ind %d from total num_rows %d\n", ind, table->num_rows);
 	table->num_rows--;
 	while (++i < table->num_cols)
 		if (strcmp(table->fields[i].data_type, FT_INT) == 0)
@@ -112,9 +112,12 @@ int		del(char **args, t_table *table)
 		else if (strcmp(table->fields[i].data_type, FT_STRING) == 0)
 		{
 			if (ind < table->num_rows)
+			{
+				free(table->fields[i].str_rows[ind]);
 				memmove(&(table->fields[i].str_rows[ind]), &(table->fields[i].
 				str_rows[ind + 1]), (table->num_rows - ind) * sizeof(char*));
-			// free(table->fields[i].str_rows[table->num_rows]);
+			}
+			
 			table->fields[i].str_rows[table->num_rows] = 0;
 			table->fields[i].str_rows = (char**)realloc(
 				table->fields[i].str_rows, table->num_rows * sizeof(char*));
