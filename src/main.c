@@ -48,7 +48,7 @@ int		main(int ac, char const *av[])
 	env.tbl_in_use = env.db_in_use->tables;
 	read_input(&env);
 
-
+	free(env.db_in_use);
 	// char *db_name = "db";
 	// char *tab_name = "users";
 

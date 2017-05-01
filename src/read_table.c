@@ -150,7 +150,7 @@ t_table		*load_tables(char *db_path, int num_tables)
 	tables = (t_table*)calloc(num_tables, sizeof(t_table));
 	while ((dir = readdir(dir_fd)))
 	{
-		if (strcspn(dir->d_name, "t_") != 0)
+		if (strcspn(dir->d_name, TBL_PREFIX) != 0)
 			continue;
 		table_path = (char*)calloc(strlen(db_path) + strlen(dir->d_name) + 1,
 			sizeof(char));

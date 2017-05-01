@@ -93,3 +93,11 @@ int use_table(char *tbl_name, t_env *env)
 	env->tbl_in_use = table;
 	return (0);
 }
+
+int	exit_program(t_env *env)
+{
+	if (env->db_in_use)
+		free_db(env->db_in_use);
+	exit(0);
+	return (0);
+}

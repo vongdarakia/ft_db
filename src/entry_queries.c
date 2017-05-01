@@ -18,9 +18,9 @@ static int	check_types(char **args, t_table *table)
 	char	*ptr;
 
 	i = -1;
-	while (*args && ++i < table->num_cols)
+	while (++i < table->num_cols && *args)
 	{
-		printf("arg: %s\n | field type: %s\n, col_num %d\n", *args, table->fields[i].data_type, i);
+		// printf("arg: %s\n | field type: %s\n, col_num %d\n", *args, table->fields[i].data_type, i);
 		if (table->fields[i].is_primary_key)
 			continue ;
 		else if (strcmp(table->fields[i].data_type, FT_INT) == 0
@@ -31,8 +31,11 @@ static int	check_types(char **args, t_table *table)
 			return (1);
 		args++;
 	}
+	// printf("Types match\n");
+	// printf("Checking if there're extra args\n");
 	if (*args)
 		return (1);
+	// printf("Checking if there're extra fields\n");
 	while (i < table->num_cols)
 	{
 		if (table->fields[i].is_primary_key == 0)
@@ -44,7 +47,7 @@ static int	check_types(char **args, t_table *table)
 }
 
 /*
-** !Problem with memory reallocation
+** !Not efficient CPU usage because of reallocation
 */
 
 int		add(char **args, t_table *table)
@@ -52,10 +55,10 @@ int		add(char **args, t_table *table)
 	int		i;
 	char	*ptr;
 
-	printf("Checking types\n");
+	// printf("Checking types\n");
 	if (check_types(args, table) != 0)
 		return (1);
-	printf("Types are fine\n");
+	// printf("Types are fine\n");
 	i = -1;
 	while (*args && ++i < table->num_cols)
 	{
@@ -64,7 +67,7 @@ int		add(char **args, t_table *table)
 			table->fields[i].int_rows = (int*)realloc(table->fields[i].int_rows,
 				table->num_rows * sizeof(int));
 			table->fields[i].int_rows[table->num_rows - 1] = (table->fields[i]
-				.is_primary_key) ? ++(table->id_counter) : strtol(*args, &ptr, 10);
+				.is_primary_key) ? (table->id_counter)++ : strtol(*args, &ptr, 10);
 			if (table->fields[i].is_primary_key)
 				continue ;
 		}
@@ -81,6 +84,7 @@ int		add(char **args, t_table *table)
 
 /*
 ** Deletes field by row number
+** !Not efficient CPU usage because of reallocation
 ** !Delete by search args params
 */
 
@@ -90,9 +94,11 @@ int		del(char **args, t_table *table)
 	int		ind;
 	char	*ptr;
 
-	if ((!(ind = strtol(*args, &ptr, 10)) && errno == EINVAL) || ind >= table->num_rows)
+	if ((!(ind = strtol(*args, &ptr, 10)) && errno == EINVAL)
+		|| ind >= table->num_rows)
 		return (1);
 	i = -1;
+	// printf("Deleting row ind %d from total num_rows %d\n", ind, table->num_rows);
 	table->num_rows--;
 	while (++i < table->num_cols)
 		if (strcmp(table->fields[i].data_type, FT_INT) == 0)
@@ -108,7 +114,8 @@ int		del(char **args, t_table *table)
 			if (ind < table->num_rows)
 				memmove(&(table->fields[i].str_rows[ind]), &(table->fields[i].
 				str_rows[ind + 1]), (table->num_rows - ind) * sizeof(char*));
-			free(table->fields[i].str_rows[table->num_rows]);
+			// free(table->fields[i].str_rows[table->num_rows]);
+			table->fields[i].str_rows[table->num_rows] = 0;
 			table->fields[i].str_rows = (char**)realloc(
 				table->fields[i].str_rows, table->num_rows * sizeof(char*));
 		}

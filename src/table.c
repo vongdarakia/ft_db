@@ -42,7 +42,7 @@ char		*get_table_path(char *db_path, char *table)
 
 	tab_path = calloc((strlen(db_path) + strlen(table) + 10), sizeof(char));
 	strcat(tab_path, db_path);
-	strcat(tab_path, "tabl_");
+	strcat(tab_path, TBL_PREFIX);
 	strcat(tab_path, table);
 	strcat(tab_path, ".csv");
 	return (tab_path);

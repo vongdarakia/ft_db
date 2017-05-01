@@ -28,9 +28,11 @@
 # define ADD "add"
 # define DELETE "del"
 # define UPDATE "upd"
+# define EXIT "exit"
 # define ERR_Q 10
 # define ERR_DB 11
 # define ERR_RET 12
+# define TBL_PREFIX "tabl_"
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <unistd.h>
@@ -112,5 +114,6 @@ int use_table(char *tbl_name, t_env *env);
 t_table		table(char *name);
 int	display_env(t_env *env);
 int	read_input(t_env *env);
+int	exit_program(t_env *env);
 
 #endif
