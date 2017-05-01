@@ -93,7 +93,7 @@ void		parse_table_meta_data(char *dbp, int nth, t_table *tab, char *bf)
 	else if (nth == 3)
 	{
 		tab->num_cols = atoi(bf);
-		tab->fields = calloc(tab->num_cols, sizeof(t_field));
+		tab->fields = (t_field*)calloc(tab->num_cols, sizeof(t_field));
 	}
 }
 
@@ -143,14 +143,16 @@ t_table		*load_tables(char *db_path, int num_tables)
 	t_table			*tables;
 	char			*table_path;
 	int				idx;
+	char			*res;
 
 	idx = 0;
 	if (!(dir_fd = opendir(db_path)))
 		return (NULL);
-	tables = (t_table*)calloc(num_tables, sizeof(t_table));
+	tables = (t_table*)calloc(num_tables + 1, sizeof(t_table));
 	while ((dir = readdir(dir_fd)))
 	{
-		if (strcspn(dir->d_name, TBL_PREFIX) != 0)
+		res = strstr(dir->d_name, TBL_PREFIX);
+		if (res - dir->d_name != 0)
 			continue;
 		table_path = (char*)calloc(strlen(db_path) + strlen(dir->d_name) + 1,
 			sizeof(char));

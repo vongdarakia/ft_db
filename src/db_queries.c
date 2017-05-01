@@ -66,7 +66,6 @@ int	use_db(char *db_name, t_env *env)
 {
 	struct stat	st;
 
-	printf("using %s\n", db_name);
 	if (!db_name)
 		return (1);
 	if (stat(DB_DIR, &st) == -1)
@@ -77,7 +76,6 @@ int	use_db(char *db_name, t_env *env)
 		free_db(env->db_in_use);
 	if (!(env->db_in_use = load_db(db_name)))
 		return (1);
-	printf("db in use: %s\n", env->db_in_use->name);
 	return (0);
 }
 

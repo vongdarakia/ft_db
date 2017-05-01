@@ -91,7 +91,7 @@ t_database	*load_db(char *db)
 	// 	printf("Error: Couldn't load %s. Invalid tables.\n", db);
 	// 	return (NULL);
 	// }
-	printf("Database loaded %s\n", db_obj->name);
+	// printf("Database loaded %s\n", db_obj->name);
 	free(db_path);
 	return (db_obj);
 }

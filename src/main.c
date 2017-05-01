@@ -46,9 +46,13 @@ int		main(int ac, char const *av[])
 
 	env.db_in_use = load_db("db");
 	env.tbl_in_use = env.db_in_use->tables;
-	read_input(&env);
+	// read_input(&env);
 
 	free(env.db_in_use);
+
+	printf("\
+Hello\
+		\n");
 	// char *db_name = "db";
 	// char *tab_name = "users";
 
