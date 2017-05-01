@@ -122,7 +122,7 @@ int	read_input(t_env *env)
 		}
 		// else
 		// 	call_error(ERR_DB);
-		bzero(line, ret);
+		// bzero(line, ret);
 		printf(">> ");
 	}
 	if (ret == -1)

@@ -109,9 +109,12 @@ void		display_table(t_table *table)
 	t_field	*field;
 	int		num_char;
 
+	c = num_digits(table->num_rows);
+	c = c < 3 ? 3 : c;
+	num_char = printf("| ");
+	num_char += print_mid_str("Row", c);
+	num_char += printf(" | ");
 	c = -1;
-	num_char = 0;
-	num_char += printf("| ");
 	while (++c < table->num_cols)
 	{
 		field = &table->fields[c];

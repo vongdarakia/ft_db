@@ -121,5 +121,35 @@ int		del(char **args, t_table *table)
 
 int		upd(char **args, t_table *table)
 {
+	int row;
+	int i;
+	char **vals;
+	int c;
+
+	row = atoi(args[0]);
+	i = 0;
+	while (args[++i])
+	{
+		vals = ft_strsplit(args[i], '=');
+		c = 0;
+		while (c < table->num_cols)
+		{
+			if (strcmp(table->fields[c].name, vals[0]) == 0)
+			{
+				if (strcmp(table->fields[c].data_type, FT_STRING) == 0)
+				{
+					free(table->fields[c].str_rows[row]);
+					table->fields[c].str_rows[row] = strdup(vals[1]);
+				}
+				else if (strcmp(table->fields[c].data_type, FT_INT) == 0)
+				{
+					table->fields[c].int_rows[row] = atoi(vals[1]);
+				}
+				break ;
+			}
+			c++;
+		}
+		free_map(vals);
+	}
 	return (0);
 }

@@ -44,35 +44,36 @@ int		main(int ac, char const *av[])
 	t_database *db;
 	t_env env;
 
-	env.db_in_use = NULL;
-	env.tbl_in_use = NULL;
+	env.db_in_use = load_db("db");
+	env.tbl_in_use = env.db_in_use->tables;
 	read_input(&env);
 
 
-	char *db_name = "db";
-	char *tab_name = "users";
+	// char *db_name = "db";
+	// char *tab_name = "users";
 
-	char *db_path = get_db_path(db_name);
-	char *tab_path = get_table_path(db_path, tab_name);
-	char *tab_meta_path = get_table_meta_path(db_path, tab_name);
+	// char *db_path = get_db_path(db_name);
+	// char *tab_path = get_table_path(db_path, tab_name);
+	// char *tab_meta_path = get_table_meta_path(db_path, tab_name);
 
-	printf("Database path: %s\n", db_path);
-	printf("Table path: %s\n", tab_path);
-	printf("Table meta path: %s\n", tab_meta_path);
-	// t_field field;
-	// int i = 0;
-	// int j = 0;
-	// int k = 0;
-	// t_point *pts;
+	// printf("Database path: %s\n", db_path);
+	// printf("Table path: %s\n", tab_path);
+	// printf("Table meta path: %s\n", tab_meta_path);
+	// db = load_db("db");
+	// display_table(db->tables);
+	// free_db(db);
+	// int size = 10;
+	// char **str = malloc(sizeof(char*) * size);
 
-	// printf("%lu\n", sizeof(db));
-
-	// db = (t_database*)calloc(1, sizeof(t_database));
-	// free(db);
-	db = load_db("db");
-	// printf("ROWS %d\n", db->tables->num_rows);
-	display_table(db->tables);
-	free_db(db);
+	// int i = -1;
+	// while (++i < size)
+	// {
+	// 	str[i] = malloc(sizeof(char) * size);
+	// }
+	// free(str[size - 1]);
+	// str[size - 1] = 0;
+	// str = realloc(str, sizeof(char*) * (size - 1));
+	// free_mapn(str, (size - 1));
 	// print_mid_str("uno", 10);
 	// f("something");
 	// free_db(db);

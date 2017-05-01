@@ -50,13 +50,18 @@ void		print_rows(t_table *table)
 {
 	int		r;
 	int		c;
+	int		row_digits;
 	t_field	*field;
 
+	row_digits = num_digits(table->num_rows);
+	row_digits = row_digits < 3 ? 3 : row_digits;
 	r = -1;
 	while (++r < table->num_rows)
 	{
 		c = -1;
 		printf("| ");
+		print_mid_int(r, row_digits);
+		printf(" | ");
 		while (++c < table->num_cols)
 		{
 			field = &table->fields[c];
