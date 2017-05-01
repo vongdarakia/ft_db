@@ -85,13 +85,19 @@ int	display_tbl(char *tbl_name, t_env *env)
 int	use_db(char *db_name, t_env *env)
 {
 	struct stat	st;
+	char		*db_path;
 
 	if (!db_name)
 		return (1);
 	if (stat(DB_DIR, &st) == -1)
 		mkdir(DB_DIR, 0755);
-	if (stat(get_db_path(db_name), &st) == -1)
+	db_path = get_db_path(db_name);
+	if (stat(db_path, &st) == -1)
+	{
+		free(db_path);
 		return (1);
+	}
+	free(db_path);
 	if (env->db_in_use)
 		free_db(env->db_in_use);
 	if (!(env->db_in_use = load_db(db_name)))
