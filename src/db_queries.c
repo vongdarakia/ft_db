@@ -23,7 +23,6 @@ static t_table *find_table(char *tbl_name, t_env *env)
 	i = 0;
 	while (i < env->db_in_use->num_tables)
 	{
-		printf("Table name to compare %s\n", env->db_in_use->tables[i].name);
 		if (strcmp(tbl_name, env->db_in_use->tables[i].name) == 0)
 			return (&(env->db_in_use->tables[i]));
 		i++;

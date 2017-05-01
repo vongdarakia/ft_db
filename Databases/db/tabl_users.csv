@@ -1,6 +1,6 @@
 users
-6
-3
+8
+4
 4
 id,Int,0,1,1,0
 first,String,20,0,0,0
@@ -9,3 +9,4 @@ age,Int,0,0,0,0
 1,Akia,Vongdara,24
 2,Mikhail,Filipchuk,28
 3,Jack,Ma,40
+6,Bill,Gates,40

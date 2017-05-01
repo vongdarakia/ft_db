@@ -43,12 +43,6 @@ int parse_query(char **args, t_env *env)
 	arg = NULL;
 	
 	i = 0;
-	// printf("query: %s\n", query);
-	// while (args[i])
-	// {
-	// 	printf("args ind: %d, arg: %s\n", i, args[i]);
-	// 	i++;
-	// }
 	arg = args[0];
 	ret = 1;
 	if (strcmp(arg, ADD) == 0 && args)
@@ -81,7 +75,6 @@ int set_db_tbl(char **args, t_env *env)
 	ret = 1;
 	if (strcmp(arg, EXIT) == 0)
 	{
-		// printf("exiting\n");
 		free_map(args);
 		exit_program(env);
 	}
