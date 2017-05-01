@@ -110,9 +110,11 @@ int	read_input(t_env *env)
 	// printf("here\n");
 	line = buffer;
 	bzero(line, linecap);
+	printf(">> ");
 	while ((ret = getline(&line, &linecap, stdin)) > 0)
 	{
 		line[ret - 1] = 0;
+		
 		if (set_db_tbl(line, env) && env->db_in_use && env->tbl_in_use)
 		{
 			if (parse_query(line, env))
@@ -120,7 +122,8 @@ int	read_input(t_env *env)
 		}
 		// else
 		// 	call_error(ERR_DB);
-		bzero(line, linecap);
+		bzero(line, ret);
+		printf(">> ");
 	}
 	if (ret == -1)
 		call_error(ERR_RET);
