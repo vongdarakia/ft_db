@@ -16,13 +16,14 @@
 ** Find a table corresponding to a name and return table's address
 */
 
-static t_table *find_table(char *tbl_name, t_env env)
+static t_table *find_table(char *tbl_name, t_env *env)
 {
 	int	i;
 
 	i = 0;
 	while (i < env->db_in_use->num_tables)
 	{
+		printf("Table name to compare %s\n", env->db_in_use->tables[i].name);
 		if (strcmp(tbl_name, env->db_in_use->tables[i].name) == 0)
 			return (&(env->db_in_use->tables[i]));
 		i++;
@@ -36,7 +37,7 @@ static t_table *find_table(char *tbl_name, t_env env)
 
 int	display_help(void)
 {
-	printf("Help! HELP! HEEEEELP!!!%s\n");
+	printf("Help! HELP! HEEEEELP!!!\n");
 	return (0);
 }
 
@@ -65,6 +66,7 @@ int	use_db(char *db_name, t_env *env)
 {
 	struct stat	st;
 
+	printf("using %s\n", db_name);
 	if (!db_name)
 		return (1);
 	if (stat(DB_DIR, &st) == -1)
@@ -75,6 +77,7 @@ int	use_db(char *db_name, t_env *env)
 		free_db(env->db_in_use);
 	if (!(env->db_in_use = load_db(db_name)))
 		return (1);
+	printf("db in use: %s\n", env->db_in_use->name);
 	return (0);
 }
 

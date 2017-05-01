@@ -16,7 +16,21 @@
 # define DB_DIR "Databases"
 # define FT_INT "Int"
 # define FT_STRING "String"
-# define BUFF_SIZE 256
+# define BUFF_SIZE 1024
+# define SEP " "
+# define HELP "help"
+# define DISPLAY "dsp"
+# define DISPLAY_TABLE "dsp_tbl"
+# define CREATE_DB "cr_db"
+# define CREATE_TABLE "cr_tbl"
+# define USE_DB "use_db"
+# define USE_TABLE "use_tbl"
+# define ADD "add"
+# define DELETE "del"
+# define UPDATE "upd"
+# define ERR_Q 10
+# define ERR_DB 11
+# define ERR_RET 12
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <unistd.h>
@@ -63,6 +77,7 @@ typedef struct	s_env
 
 char			*get_db_path(char *db);
 char			*get_table_path(char *db, char *table);
+char			*get_table_meta_path(char *db, char *table);
 
 int				create_db(char *db);
 int				create_table(char *db, t_table *table);
@@ -85,5 +100,17 @@ void			write_table(char *db, t_table *table);
 void			display_table(t_table *table);
 char			**ft_strsplit(char const *s, char c);
 void			call_error(int err_code);
+
+static int	check_types(char **args, t_table *table);
+int		add(char **args, t_table *table);
+int		del(char **args, t_table *table);
+int		upd(char **args, t_table *table);
+int	display_help(void);
+int	display_tbl(char *tbl_name, t_env *env);
+int	use_db(char *db_name, t_env *env);
+int use_table(char *tbl_name, t_env *env);
+t_table		table(char *name);
+int	display_env(t_env *env);
+int	read_input(t_env *env);
 
 #endif

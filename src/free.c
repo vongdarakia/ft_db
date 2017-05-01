@@ -41,7 +41,6 @@ void		free_mapn(char **map, int num)
 void		free_fields(t_field *fields, int num_fields, int num_rows)
 {
 	int i;
-	int j;
 
 	i = -1;
 	while (++i < num_fields)
@@ -71,5 +70,6 @@ void		free_tables(t_table *tables, int num_tables)
 void		free_db(t_database *db)
 {
 	free_tables(db->tables, db->num_tables);
+	free(db->name);
 	free(db);
 }

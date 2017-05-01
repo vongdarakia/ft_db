@@ -60,39 +60,52 @@ void		parse_row(char **row_data, t_table *tab_obj, int row_num)
 **
 **	Parses the meta data for the table. (ie. name, id counter, num_rows, etc.)
 **
+**	@param dbp:		Database path
 **	@param nth:		Nth line that we've read from the file. This tells us which
 **					attribute we're on.
-**	@param tab_obj:	Table object we're modifying.
-**	@param buffer:	The line data we read from the file.
+**	@param tab:		Table object we're modifying.
+**	@param bf:		The line data we read from the file.
 */
 
-void		parse_table_meta_data(int nth, t_table *tab_obj, char *buffer)
+void		parse_table_meta_data(char *dbp, int nth, t_table *tab, char *bf)
 {
-	char	**fields;
-	char	**data_types;
+	FILE	*file;
+	char	*meta_path;
 
+	// meta_path = get_table_meta_path(dbp, tab->name);
+	// file = fopen(meta_path, "r");
+	// while (fgets(bf, BUFF_SIZE, file) != NULL)
+	// {
+	// 	// bf[strcspn(bf, "\n")] = 0;
+	// 	// if (++line < 4)
+	// 	// 	parse_table_meta_data(line, &t, bf);
+	// 	// else if (line < 4 + t.num_cols)
+	// 	// 	t.fields[line - 4] = parse_field(ft_strsplit(bf, ','), t.num_rows);
+	// 	// else
+	// 	// 	parse_row(ft_strsplit(bf, ','), &t, line - 4 - t.num_cols);
+	// }
 	if (nth == 0)
-		tab_obj->name = strdup(buffer);
+		tab->name = strdup(bf);
 	else if (nth == 1)
-		tab_obj->id_counter = atoi(buffer);
+		tab->id_counter = atoi(bf);
 	else if (nth == 2)
-		tab_obj->num_rows = atoi(buffer);
+		tab->num_rows = atoi(bf);
 	else if (nth == 3)
 	{
-		tab_obj->num_cols = atoi(buffer);
-		tab_obj->fields = calloc(tab_obj->num_cols, sizeof(t_field));
+		tab->num_cols = atoi(bf);
+		tab->fields = calloc(tab->num_cols, sizeof(t_field));
 	}
 }
 
-t_table		load_table(char *table_path, char *table_name)
+t_table		load_table(char *db_path, char *table_path, char *table_name)
 {
 	FILE	*file;
 	t_table	t;
 	char	bf[BUFF_SIZE];
-	int		line;
-	char	**split;
+	char	*line;
+	int		nth;
 
-	line = -1;
+	nth = -1;
 	file = fopen(table_path, "r");
 	if (file == NULL)
 	{
@@ -100,15 +113,15 @@ t_table		load_table(char *table_path, char *table_name)
 		fclose(file);
 		return (t);
 	}
-	while (fgets(bf, BUFF_SIZE, file) != NULL)
+	while ((line = fgets(bf, BUFF_SIZE, file)) != NULL)
 	{
 		bf[strcspn(bf, "\n")] = 0;
-		if (++line < 4)
-			parse_table_meta_data(line, &t, bf);
-		else if (line < 4 + t.num_cols)
-			t.fields[line - 4] = parse_field(ft_strsplit(bf, ','), t.num_rows);
+		if (++nth < 4)
+			parse_table_meta_data(db_path, nth, &t, bf);
+		else if (nth < 4 + t.num_cols)
+			t.fields[nth - 4] = parse_field(ft_strsplit(bf, ','), t.num_rows);
 		else
-			parse_row(ft_strsplit(bf, ','), &t, line - 4 - t.num_cols);
+			parse_row(ft_strsplit(bf, ','), &t, nth - 4 - t.num_cols);
 	}
 	fclose(file);
 	return (t);
@@ -143,7 +156,7 @@ t_table		*load_tables(char *db_path, int num_tables)
 			sizeof(char));
 		strcat(table_path, db_path);
 		strcat(table_path, dir->d_name);
-		tables[idx++] = load_table(table_path, dir->d_name);
+		tables[idx++] = load_table(db_path, table_path, dir->d_name);
 		free(table_path);
 	}
 	closedir(dir_fd);

@@ -12,6 +12,19 @@
 
 #include "ft_db.h"
 
+t_table		table(char *name)
+{
+	t_table t;
+
+	t.name = name;
+	t.id_counter = 10;
+	t.num_rows = 0;
+	t.num_cols = 1;
+	t.is_bad = 0;
+
+	return t;
+}
+
 /*
 **	get_table_path
 **
@@ -25,15 +38,26 @@
 
 char		*get_table_path(char *db_path, char *table)
 {
-	struct stat	st;
 	char		*tab_path;
 
-	tab_path = calloc((strlen(db_path) + strlen(table) + 7), sizeof(char));
+	tab_path = calloc((strlen(db_path) + strlen(table) + 10), sizeof(char));
 	strcat(tab_path, db_path);
-	strcat(tab_path, "t_");
+	strcat(tab_path, "tabl_");
 	strcat(tab_path, table);
 	strcat(tab_path, ".csv");
 	return (tab_path);
+}
+
+char	*get_table_meta_path(char *db_path, char *table)
+{
+	char		*tab_path;
+
+	tab_path = calloc((strlen(db_path) + strlen(table) + 10), sizeof(char));
+	strcat(tab_path, db_path);
+	strcat(tab_path, "meta_");
+	strcat(tab_path, table);
+	strcat(tab_path, ".csv");
+	return tab_path;
 }
 
 /*
@@ -81,7 +105,6 @@ int			num_digits(int num)
 
 void		display_table(t_table *table)
 {
-	int		r;
 	int		c;
 	t_field	*field;
 	int		num_char;

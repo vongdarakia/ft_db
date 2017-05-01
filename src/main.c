@@ -42,6 +42,23 @@ t_point getPoint(int x, int y)
 int		main(int ac, char const *av[])
 {
 	t_database *db;
+	t_env env;
+
+	env.db_in_use = NULL;
+	env.tbl_in_use = NULL;
+	read_input(&env);
+
+
+	char *db_name = "db";
+	char *tab_name = "users";
+
+	char *db_path = get_db_path(db_name);
+	char *tab_path = get_table_path(db_path, tab_name);
+	char *tab_meta_path = get_table_meta_path(db_path, tab_name);
+
+	printf("Database path: %s\n", db_path);
+	printf("Table path: %s\n", tab_path);
+	printf("Table meta path: %s\n", tab_meta_path);
 	// t_field field;
 	// int i = 0;
 	// int j = 0;

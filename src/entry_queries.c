@@ -15,14 +15,16 @@
 static int	check_types(char **args, t_table *table)
 {
 	int		i;
+	char	*ptr;
 
 	i = -1;
 	while (*args && ++i < table->num_cols)
 	{
+		printf("arg: %s\n | field type: %s\n, col_num %d\n", *args, table->fields[i].data_type, i);
 		if (table->fields[i].is_primary_key)
 			continue ;
 		else if (strcmp(table->fields[i].data_type, FT_INT) == 0
-			&& (strtol(*args) == 0 && errno == EINVAL))
+			&& (strtol(*args, &ptr, 10) == 0 && errno == EINVAL))
 			return (1);
 		else if (strcmp(table->fields[i].data_type, FT_INT) != 0 && 
 			strcmp(table->fields[i].data_type, FT_STRING) != 0)
@@ -47,10 +49,13 @@ static int	check_types(char **args, t_table *table)
 
 int		add(char **args, t_table *table)
 {
-	int	i;
+	int		i;
+	char	*ptr;
 
+	printf("Checking types\n");
 	if (check_types(args, table) != 0)
 		return (1);
+	printf("Types are fine\n");
 	i = -1;
 	while (*args && ++i < table->num_cols)
 	{
@@ -59,7 +64,7 @@ int		add(char **args, t_table *table)
 			table->fields[i].int_rows = (int*)realloc(table->fields[i].int_rows,
 				table->num_rows * sizeof(int));
 			table->fields[i].int_rows[table->num_rows - 1] = (table->fields[i]
-				.is_primary_key) ? ++(table->id_counter) : strtol(*args);
+				.is_primary_key) ? ++(table->id_counter) : strtol(*args, &ptr, 10);
 			if (table->fields[i].is_primary_key)
 				continue ;
 		}
@@ -81,10 +86,11 @@ int		add(char **args, t_table *table)
 
 int		del(char **args, t_table *table)
 {
-	int	i;
-	int	ind;
-	
-	if ((!(ind = strtol(*args)) && errno == EINVAL) || ind >= table->num_rows)
+	int		i;
+	int		ind;
+	char	*ptr;
+
+	if ((!(ind = strtol(*args, &ptr, 10)) && errno == EINVAL) || ind >= table->num_rows)
 		return (1);
 	i = -1;
 	table->num_rows--;

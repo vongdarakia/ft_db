@@ -22,7 +22,12 @@ SRCS		= 	main.c \
 				read_table.c \
 				ft_strsplit.c \
 				free.c \
-				print_table.c
+				print_table.c \
+				entry_queries.c \
+				db_queries.c \
+				error_mngr.c \
+				parse_input.c \
+				display.c
 
 ODIR		=	build
 OBJS		=	$(addprefix build/, $(SRCS:.c=.o)) 

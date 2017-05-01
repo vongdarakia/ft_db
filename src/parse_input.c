@@ -11,20 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_db.h"
-#define SEP " "
-#define HELP "HLP"
-#define DISPLAY "DSP"
-#define DISPLAY_TABLE "DSP_TBL"
-#define CREATE_DB "CR_DB"
-#define CREATE_TABLE "CR_TBL"
-#define USE_DB "USE_DB"
-#define USE_TABLE "USE_TBL"
-#define ADD "ADD"
-#define DELETE "DEL"
-#define UPDATE "UPD"
-#define ERR_Q 10
-#define ERR_DB 11
-#define ERR_RET 12
+
 
 /* 
 ** If DB in use and Table in use then
@@ -41,15 +28,22 @@ int parse_query(char *query, t_env *env)
 	int		i;
 
 	arg = NULL;
-	if ((args = ft_strsplit(query, SEP)))
+	if ((args = ft_strsplit(query, *SEP)))
 		arg = args[0];
+	i = 0;
+	printf("query: %s\n", query);
+	while (args[i])
+	{
+		printf("args ind: %d, arg: %s\n", i, args[i]);
+		i++;
+	}
 	ret = 1;
 	if (strcmp(arg, ADD) == 0 && args)
-		ret = add(args, env->tbl_in_use);
+		ret = add(&(args[1]), env->tbl_in_use);
 	else if (strcmp(arg, DELETE) == 0 && args)
-		ret = del(args, env->tbl_in_use);
+		ret = del(&(args[1]), env->tbl_in_use);
 	else if (strcmp(arg, UPDATE) == 0 && args)
-		ret = upd(args, env->tbl_in_use);
+		ret = upd(&(args[1]), env->tbl_in_use);
 	i = 0;
 	if (args)
 		while (args[i])
@@ -57,7 +51,7 @@ int parse_query(char *query, t_env *env)
 			free(args[i]);
 			i++;
 		}
-	free(args);
+	// free(args);
 	return (ret);
 }
 
@@ -74,6 +68,7 @@ int set_db_tbl(char *query, t_env *env)
 {
 	char	*arg;
 	int		ret;
+	t_table	t;
 
 	arg = strtok(query, SEP);
 	ret = 1;
@@ -81,17 +76,20 @@ int set_db_tbl(char *query, t_env *env)
 		ret = display_help();
 	else if (strcmp(arg, DISPLAY) == 0)
 		ret = display_env(env);
-	else if (strcmp(arg, DISPLAY_TABLE) == 0)
+	else if (env->db_in_use && strcmp(arg, DISPLAY_TABLE) == 0)
 		ret = display_tbl(strtok(NULL, SEP), env);
 	else if (strcmp(arg, CREATE_DB) == 0)
 		ret = create_db(strtok(NULL, SEP));
 	else if (strcmp(arg, USE_DB) == 0)
 		ret = use_db(strtok(NULL, SEP), env);
 	else if (env->db_in_use && strcmp(arg, CREATE_TABLE) == 0)
-		ret = create_table(env->db_in_use, strtok(NULL, SEP));
+	{
+		t = table(strtok(NULL, SEP));
+		ret = create_table(env->db_in_use->name, &t);
+	}
 	else if (env->db_in_use && strcmp(arg, USE_TABLE) == 0)
 		ret = use_table(strtok(NULL, SEP), env);
-	free(arg);
+	// free(arg);
 	return (ret);
 }
 
@@ -101,25 +99,31 @@ int set_db_tbl(char *query, t_env *env)
 
 int	read_input(t_env *env)
 {
-	int		ret;
-	int		linecap;
+
+	size_t		ret;
+	size_t	linecap;
+	char	buffer[BUFF_SIZE];
 	char	*line;
 
-	linecap = BUFF_SIZE;
-	line = calloc(linecap, 1);
-	while ((ret = getline(&line, &linecap, 0)) > 0)
+	linecap = (size_t) BUFF_SIZE;
+	// line = calloc(1, linecap);
+	// printf("here\n");
+	line = buffer;
+	bzero(line, linecap);
+	while ((ret = getline(&line, &linecap, stdin)) > 0)
 	{
-		if (env->db_in_use && env->tbl_in_use)
+		line[ret - 1] = 0;
+		if (set_db_tbl(line, env) && env->db_in_use && env->tbl_in_use)
 		{
 			if (parse_query(line, env))
 				call_error(ERR_Q);
 		}
-		else if (set_db_tbl(line, env))
-			call_error(ERR_DB);
+		// else
+		// 	call_error(ERR_DB);
 		bzero(line, linecap);
 	}
 	if (ret == -1)
 		call_error(ERR_RET);
-	free(line);
+	// free(line);
 	return (0);
 }

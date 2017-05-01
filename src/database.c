@@ -83,14 +83,15 @@ t_database	*load_db(char *db)
 		return (NULL);
 	}
 	db_obj = (t_database*)calloc(1, sizeof(t_database));
-	db_obj->name = db;
-	db_obj->num_tables = 4;
+	db_obj->name = strdup(db);
+	db_obj->num_tables = 1;
 	db_obj->tables = load_tables(db_path, db_obj->num_tables);
 	// if (db_obj->tables == NULL)
 	// {
 	// 	printf("Error: Couldn't load %s. Invalid tables.\n", db);
 	// 	return (NULL);
 	// }
+	printf("Database loaded %s\n", db_obj->name);
 	free(db_path);
 	return (db_obj);
 }
