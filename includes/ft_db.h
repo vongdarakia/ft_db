@@ -109,7 +109,6 @@ void			display_table(t_table *table);
 char			**ft_strsplit(char const *s, char c);
 void			call_error(int err_code);
 
-// static int		check_types(char **args, t_table *table);
 int				add(char **args, t_table *table);
 int				del(char **args, t_table *table);
 int				upd(char **args, t_table *table);
