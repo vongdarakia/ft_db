@@ -21,6 +21,8 @@ static t_table	*find_table(char *tbl_name, t_env *env)
 	int	i;
 
 	i = 0;
+	if (tbl_name == NULL)
+		return (NULL);
 	while (i < env->db_in_use->num_tables)
 	{
 		if (strcmp(tbl_name, env->db_in_use->tables[i].name) == 0)
