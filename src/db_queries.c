@@ -80,7 +80,6 @@ exit\n\
 int				display_tbl(char *tbl_name, t_env *env)
 {
 	t_table	*table;
-	int		i;
 
 	if (!tbl_name && !(env->tbl_in_use))
 		return (1);

@@ -30,7 +30,6 @@ int		parse_db_only_queries(char **args, t_env *env)
 {
 	char	*arg;
 	int		ret;
-	t_table	t;
 
 	ret = -1;
 	arg = args[0];
@@ -105,9 +104,7 @@ int		parse_tbl_only_queries(char **args, t_env *env)
 
 int		parse_query(char **args, t_env *env)
 {
-	char	*arg;
 	int		ret;
-	int		i;
 
 	ret = parse_command_line_queries(args, env);
 	if (ret == -1)

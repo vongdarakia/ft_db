@@ -46,7 +46,6 @@
 # include <dirent.h>
 # include <errno.h>
 
-
 typedef struct	s_field
 {
 	char	*name;
@@ -78,7 +77,7 @@ typedef struct	s_database
 
 typedef struct	s_env
 {
-	t_database		*db_in_use;	
+	t_database		*db_in_use;
 	t_table			*tbl_in_use;
 }				t_env;
 
@@ -110,19 +109,18 @@ void			display_table(t_table *table);
 char			**ft_strsplit(char const *s, char c);
 void			call_error(int err_code);
 
-static int	check_types(char **args, t_table *table);
-int		add(char **args, t_table *table);
-int		del(char **args, t_table *table);
-int		upd(char **args, t_table *table);
-int	display_help(void);
-int	display_tbl(char *tbl_name, t_env *env);
-int	use_db(char *db_name, t_env *env);
-int use_table(char *tbl_name, t_env *env);
-t_table		table(char *name);
-int	display_env(t_env *env);
-int	read_input(t_env *env);
-int	exit_program(t_env *env);
-int	show(char **args, t_env *env);
-
+// static int		check_types(char **args, t_table *table);
+int				add(char **args, t_table *table);
+int				del(char **args, t_table *table);
+int				upd(char **args, t_table *table);
+int				display_help(void);
+int				display_tbl(char *tbl_name, t_env *env);
+int				use_db(char *db_name, t_env *env);
+int				use_table(char *tbl_name, t_env *env);
+t_table			table(char *name);
+int				display_env(t_env *env);
+int				read_input(t_env *env);
+int				exit_program(t_env *env);
+int				show(char **args, t_env *env);
 
 #endif

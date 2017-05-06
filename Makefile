@@ -14,7 +14,7 @@ NAME		=	ft_db
 
 IDIR		=	includes
 CC			=	gcc
-# CFLAGS		=	-Wall -Werror
+CFLAGS		=	-Wall -Werror
 SRCS		= 	main.c \
 				database.c \
 				table.c \

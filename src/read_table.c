@@ -69,9 +69,6 @@ void		parse_row(char **row_data, t_table *tab_obj, int row_num)
 
 void		parse_table_meta_data(char *dbp, int nth, t_table *tab, char *bf)
 {
-	FILE	*file;
-	char	*meta_path;
-
 	if (nth == 0)
 		tab->name = strdup(bf);
 	else if (nth == 1)
