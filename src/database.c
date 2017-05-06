@@ -58,7 +58,7 @@ int			create_db(char *db)
 		mkdir(new_db, 0755);
 	}
 	free(new_db);
-	return (1);
+	return (0);
 }
 
 int			get_num_tables(char *db_path)
