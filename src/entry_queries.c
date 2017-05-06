@@ -20,29 +20,24 @@ static int	check_types(char **args, t_table *table)
 	i = -1;
 	while (++i < table->num_cols && *args)
 	{
-		// printf("arg: %s\n | field type: %s\n, col_num %d\n", *args, table->fields[i].data_type, i);
 		if (table->fields[i].is_primary_key)
 			continue ;
 		else if (strcmp(table->fields[i].data_type, FT_INT) == 0
 			&& (strtol(*args, &ptr, 10) == 0 && errno == EINVAL))
 			return (1);
-		else if (strcmp(table->fields[i].data_type, FT_INT) != 0 && 
+		else if (strcmp(table->fields[i].data_type, FT_INT) != 0 &&
 			strcmp(table->fields[i].data_type, FT_STRING) != 0)
 			return (1);
 		args++;
 	}
-	// printf("Types match\n");
-	// printf("Checking if there're extra args\n");
 	if (*args)
 		return (1);
-	// printf("Checking if there're extra fields\n");
 	while (i < table->num_cols)
 	{
 		if (table->fields[i].is_primary_key == 0)
 			return (1);
 		i++;
 	}
-	
 	return (0);
 }
 
@@ -50,25 +45,24 @@ static int	check_types(char **args, t_table *table)
 ** !Not efficient CPU usage because of reallocation
 */
 
-int		add(char **args, t_table *table)
+int			add(char **args, t_table *table)
 {
 	int		i;
 	char	*ptr;
 
-	// printf("Checking types\n");
 	if (check_types(args, table) != 0)
 		return (1);
-	// printf("Types are fine\n");
 	i = -1;
 	table->num_rows++;
 	while (*args && ++i < table->num_cols)
 	{
 		if (strcmp(table->fields[i].data_type, FT_INT) == 0)
 		{
-			table->fields[i].int_rows = (int*)realloc(table->fields[i].int_rows,
-				table->num_rows * sizeof(int));
-			table->fields[i].int_rows[table->num_rows - 1] = (table->fields[i]
-				.is_primary_key) ? (table->id_counter)++ : strtol(*args, &ptr, 10);
+			table->fields[i].int_rows = (int*)realloc(
+				table->fields[i].int_rows, table->num_rows * sizeof(int));
+			table->fields[i].int_rows[table->num_rows - 1] =
+				(table->fields[i].is_primary_key) ?
+				(table->id_counter)++ : strtol(*args, &ptr, 10);
 			if (table->fields[i].is_primary_key)
 				continue ;
 		}
@@ -79,7 +73,7 @@ int		add(char **args, t_table *table)
 			table->fields[i].str_rows[table->num_rows - 1] = strdup(*args);
 		}
 		args++;
-	}	
+	}
 	return (0);
 }
 
@@ -89,7 +83,7 @@ int		add(char **args, t_table *table)
 ** !Delete by search args params
 */
 
-int		del(char **args, t_table *table)
+int			del(char **args, t_table *table)
 {
 	int		i;
 	int		ind;
@@ -117,7 +111,6 @@ int		del(char **args, t_table *table)
 				memmove(&(table->fields[i].str_rows[ind]), &(table->fields[i].
 				str_rows[ind + 1]), (table->num_rows - ind) * sizeof(char*));
 			}
-			
 			table->fields[i].str_rows[table->num_rows] = 0;
 			table->fields[i].str_rows = (char**)realloc(
 				table->fields[i].str_rows, table->num_rows * sizeof(char*));
@@ -129,12 +122,12 @@ int		del(char **args, t_table *table)
 ** !Need to write update function
 */
 
-int		upd(char **args, t_table *table)
+int			upd(char **args, t_table *table)
 {
-	int row;
-	int i;
-	char **vals;
-	int c;
+	int		row;
+	int		i;
+	char	**vals;
+	int		c;
 
 	row = atoi(args[0]);
 	i = 0;

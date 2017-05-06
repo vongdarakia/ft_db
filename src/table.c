@@ -16,13 +16,12 @@ t_table		table(char *name)
 {
 	t_table t;
 
-	t.name = name;
-	t.id_counter = 10;
+	t.name = strdup(name);
+	t.id_counter = 1;
 	t.num_rows = 0;
 	t.num_cols = 1;
 	t.is_bad = 0;
-
-	return t;
+	return (t);
 }
 
 /*
@@ -48,7 +47,7 @@ char		*get_table_path(char *db_path, char *table)
 	return (tab_path);
 }
 
-char	*get_table_meta_path(char *db_path, char *table)
+char		*get_table_meta_path(char *db_path, char *table)
 {
 	char		*tab_path;
 
@@ -57,7 +56,7 @@ char	*get_table_meta_path(char *db_path, char *table)
 	strcat(tab_path, "meta_");
 	strcat(tab_path, table);
 	strcat(tab_path, ".csv");
-	return tab_path;
+	return (tab_path);
 }
 
 /*
@@ -69,7 +68,7 @@ char	*get_table_meta_path(char *db_path, char *table)
 **	@param table:	Table name
 */
 
-int			create_table(char *db, t_table *table)
+int			create_table_file(char *db, t_table *table)
 {
 	struct stat	st;
 	char		*table_path;
@@ -111,7 +110,7 @@ void		display_table(t_table *table)
 
 	c = num_digits(table->num_rows);
 	c = c < 3 ? 3 : c;
-	num_char = printf("| ");
+	num_char = printf("\n| ") - 1;
 	num_char += print_mid_str("Row", c);
 	num_char += printf(" | ");
 	c = -1;
@@ -128,4 +127,5 @@ void		display_table(t_table *table)
 	print_x("-", num_char);
 	printf("\n");
 	print_rows(table);
+	printf("\n");
 }

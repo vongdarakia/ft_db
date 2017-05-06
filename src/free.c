@@ -61,8 +61,8 @@ void		free_tables(t_table *tables, int num_tables)
 	while (++i < num_tables)
 	{
 		free_fields(tables[i].fields, tables[i].num_cols, tables[i].num_rows);
-		free(tables->fields);
-		free(tables->name);
+		free(tables[i].fields);
+		free(tables[i].name);
 	}
 	free(tables);
 }

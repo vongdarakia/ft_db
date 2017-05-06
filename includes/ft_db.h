@@ -19,8 +19,12 @@
 # define BUFF_SIZE 1024
 # define SEP " "
 # define HELP "help"
+# define SHOW "show"
+# define TABLES "tables"
+# define DATABASES "databases"
 # define DISPLAY "dsp"
 # define DISPLAY_TABLE "dsp_tbl"
+# define CREATE "create"
 # define CREATE_DB "cr_db"
 # define CREATE_TABLE "cr_tbl"
 # define USE_DB "use_db"
@@ -82,8 +86,10 @@ char			*get_db_path(char *db);
 char			*get_table_path(char *db, char *table);
 char			*get_table_meta_path(char *db, char *table);
 
+int				create(char **args, t_env *env);
 int				create_db(char *db);
-int				create_table(char *db, t_table *table);
+int				create_table(char **args, t_env *env);
+int				create_table_file(char *db, t_table *table);
 
 t_database		*load_db(char *db);
 t_table			*load_tables(char *db_path, int num_tables);
@@ -116,5 +122,7 @@ t_table		table(char *name);
 int	display_env(t_env *env);
 int	read_input(t_env *env);
 int	exit_program(t_env *env);
+int	show(char **args, t_env *env);
+
 
 #endif

@@ -17,8 +17,10 @@ int		main(int ac, char const *av[])
 	t_database *db;
 	t_env env;
 
+	env.db_in_use = NULL;
+	env.tbl_in_use = NULL;
 	env.db_in_use = load_db("db");
-	env.tbl_in_use = env.db_in_use->tables;
+	// env.tbl_in_use = env.db_in_use->tables;
 	read_input(&env);
 	free(env.db_in_use);
 

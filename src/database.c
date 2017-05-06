@@ -61,6 +61,27 @@ int			create_db(char *db)
 	return (1);
 }
 
+int			get_num_tables(char *db_path)
+{
+	DIR				*dir_fd;
+	struct dirent	*dir;
+	int				num;
+	char			*res;
+
+	num = 0;
+	if (!(dir_fd = opendir(db_path)))
+		return (0);
+	while ((dir = readdir(dir_fd)))
+	{
+		res = strstr(dir->d_name, TBL_PREFIX);
+		if (res - dir->d_name != 0)
+			continue;
+		num++;
+	}
+	closedir(dir_fd);
+	return (num);
+}
+
 /*
 **	load_db
 **
@@ -84,14 +105,8 @@ t_database	*load_db(char *db)
 	}
 	db_obj = (t_database*)calloc(1, sizeof(t_database));
 	db_obj->name = strdup(db);
-	db_obj->num_tables = 1;
+	db_obj->num_tables = get_num_tables(db_path);
 	db_obj->tables = load_tables(db_path, db_obj->num_tables);
-	// if (db_obj->tables == NULL)
-	// {
-	// 	printf("Error: Couldn't load %s. Invalid tables.\n", db);
-	// 	return (NULL);
-	// }
-	// printf("Database loaded %s\n", db_obj->name);
 	free(db_path);
 	return (db_obj);
 }

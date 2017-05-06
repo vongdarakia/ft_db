@@ -72,18 +72,6 @@ void		parse_table_meta_data(char *dbp, int nth, t_table *tab, char *bf)
 	FILE	*file;
 	char	*meta_path;
 
-	// meta_path = get_table_meta_path(dbp, tab->name);
-	// file = fopen(meta_path, "r");
-	// while (fgets(bf, BUFF_SIZE, file) != NULL)
-	// {
-	// 	// bf[strcspn(bf, "\n")] = 0;
-	// 	// if (++line < 4)
-	// 	// 	parse_table_meta_data(line, &t, bf);
-	// 	// else if (line < 4 + t.num_cols)
-	// 	// 	t.fields[line - 4] = parse_field(ft_strsplit(bf, ','), t.num_rows);
-	// 	// else
-	// 	// 	parse_row(ft_strsplit(bf, ','), &t, line - 4 - t.num_cols);
-	// }
 	if (nth == 0)
 		tab->name = strdup(bf);
 	else if (nth == 1)
